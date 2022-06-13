@@ -1,0 +1,44 @@
+class StudentSerializer(serializers.Serializer):
+    name=serializers.charField()
+    roll=serializers.charField()
+    city=serializers.charField()
+validation:
+field level validation
+if input in field is greater than 200 then validation error will raise.
+def validate_roll(self,value)://first write keyword validate and then name of field with _ .this method is automatically called when is_valid method is called.
+   if value>=100:
+       raise serializers.ValidationError("error field")
+   return value
+
+
+
+
+generic views provided by the DRF:
+
+CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView, ListCreateAPIView,
+RetrieveUpdateAPIView, RetrieveDestroyAPIView, RetrieveUpdateDestroyAPIView
+
+
+
+object level validation:
+when we do validation that require access to multiple fields we do
+object level validation by adding a method called validate()
+to serializer subclass.
+
+
+class StudentSerializer(serializers.Serializer):
+    name=serializers.charField()
+    roll=serializers.charField()
+    city=serializers.charField()
+    def validate(self,data): // here data is a dictionary
+      nm=data.get('name")
+      ct=data.get('city")
+      if nm.lower()=='rohut' and ct.lower()!='ranchi':
+          raise serializers.ValidationError("error field")
+       return data
+
+3. Validators:
+name field must starts with r.
+def anyfunctname(value):
+  if value['0'].lower()!='r':
+      raise serializers.ValidationError("name must start with r")
